@@ -32,6 +32,12 @@ target_link_libraries(train_vocab ${OpenCV_LIBS})
 add_executable(train_svm src/train_svm.cpp)
 target_link_libraries(train_svm ${OpenCV_LIBS} stdc++fs)
 
+add_executable(distance_minmax src/distance-minmax.cpp)
+target_link_libraries(distance_minmax ${OpenCV_LIBS} stdc++fs)
+
+add_executable(descriptor-filter src/descriptor-filter.cpp)
+target_link_libraries(descriptor-filter ${OpenCV_LIBS})
+
 add_executable(test_detector src/test_detector.cpp)
 target_link_libraries(test_detector ${OpenCV_LIBS} stdc++fs)
 
