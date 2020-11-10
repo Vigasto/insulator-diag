@@ -38,6 +38,12 @@ target_link_libraries(distance_minmax ${OpenCV_LIBS} stdc++fs)
 add_executable(descriptor-filter src/descriptor-filter.cpp)
 target_link_libraries(descriptor-filter ${OpenCV_LIBS})
 
+add_executable(descriptor-filter-ratio-test src/descriptor-filter-ratio-test.cpp)
+target_link_libraries(descriptor-filter-ratio-test ${OpenCV_LIBS})
+
+add_executable(descriptor-filter-crosscheck src/descriptor-filter-crosscheck.cpp)
+target_link_libraries(descriptor-filter-crosscheck ${OpenCV_LIBS})
+
 add_executable(test_detector src/test_detector.cpp)
 target_link_libraries(test_detector ${OpenCV_LIBS} stdc++fs)
 
