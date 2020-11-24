@@ -23,6 +23,9 @@ target_link_libraries(check_akaze_kpts ${OpenCV_LIBS})
 add_executable(check_sift_kpts src/check_sift_kpts.cpp)
 target_link_libraries(check_sift_kpts ${OpenCV_LIBS})
 
+add_executable(check_agast_kpts src/check_agast_kpts.cpp)
+target_link_libraries(check_agast_kpts ${OpenCV_LIBS})
+
 add_executable(collect_desc src/collect_desc.cpp)
 target_link_libraries(collect_desc ${OpenCV_LIBS} stdc++fs)
 

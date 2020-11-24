@@ -16,15 +16,18 @@ int main( int argc, char* argv[]) {
         return -1;
     }
 
-    std::shared_ptr<cv::SIFT> detector = 
-        cv::SIFT::create(0,3,0.04,10.0);
+    // WARNING: corner keypoints contain no orientation estimate
+    // use with other descriptor as last resort only
+
+    std::shared_ptr<cv::AgastFeatureDetector> detector = 
+        cv::AgastFeatureDetector::create(10, true, cv::AgastFeatureDetector::AGAST_7_12s);
     std::vector<cv::KeyPoint> keypoints;
     detector->detect(src, keypoints);
 
     cv::Mat img_keypoints;
     cv::drawKeypoints(src, keypoints, img_keypoints);
 
-    cv::imshow("SIFT Keypoints", img_keypoints);
+    cv::imshow("AGAST Keypoints", img_keypoints);
 
     cv::waitKey();
     return 0;
