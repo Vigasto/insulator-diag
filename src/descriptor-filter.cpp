@@ -22,8 +22,8 @@ int main (int argc, char * const argv[]) {
     fs["vocabulary"] >> vocab;
     fs.release();
 
-    std::shared_ptr<cv::SIFT> detector = 
-        cv::SIFT::create();
+    std::shared_ptr<cv::AgastFeatureDetector> detector = 
+        cv::AgastFeatureDetector::create(10, true, cv::AgastFeatureDetector::OAST_9_16);
     std::shared_ptr<cv::DescriptorExtractor> descriptor = 
        cv::xfeatures2d::LATCH::create();
 
@@ -34,7 +34,11 @@ int main (int argc, char * const argv[]) {
     cv::Mat training_descriptors, label;
 
     //TODO: tuning
-    float maxdist = 100;
+    float maxdist = 80;
+    float minx, miny, maxx, maxy;
+    minx = 1152;
+    miny = 864;
+    maxx = maxy = 0;
 
     std::vector<cv::KeyPoint> kpts, filtered_kpts;
     detector->detect(img, kpts);
@@ -49,12 +53,20 @@ int main (int argc, char * const argv[]) {
 
         if (distance < maxdist){
             filtered_kpts.push_back(kpts[queryIdx]);
+            if (kpts[queryIdx].pt.x < minx) minx = kpts[queryIdx].pt.x;
+            if (kpts[queryIdx].pt.y < miny) miny = kpts[queryIdx].pt.y;
+            if (kpts[queryIdx].pt.x > maxx) maxx = kpts[queryIdx].pt.x;
+            if (kpts[queryIdx].pt.y > maxy) maxy = kpts[queryIdx].pt.y;
         }
     }
     cv::Mat img_keypoints;
     cv::drawKeypoints(img, filtered_kpts, img_keypoints);
 
     cv::imshow("Filtered keypoints", img_keypoints);
+    std::cout << minx << std::endl;
+    std::cout << miny << std::endl;
+    std::cout << maxx << std::endl;
+    std::cout << maxy << std::endl;
 
     cv::waitKey();
     return 0;

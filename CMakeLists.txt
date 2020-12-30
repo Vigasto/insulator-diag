@@ -32,6 +32,9 @@ target_link_libraries(collect_desc ${OpenCV_LIBS} stdc++fs)
 add_executable(train_vocab src/train_vocab.cpp ${BOWKMajority})
 target_link_libraries(train_vocab ${OpenCV_LIBS})
 
+add_executable(train_vocab_dist src/train_vocab_dist.cpp ${BOWKMajority})
+target_link_libraries(train_vocab_dist ${OpenCV_LIBS})
+
 add_executable(train_svm src/train_svm.cpp)
 target_link_libraries(train_svm ${OpenCV_LIBS} stdc++fs)
 
