@@ -20,7 +20,7 @@ int main( int argc, char* argv[]) {
     // use with other descriptor as last resort only
 
     std::shared_ptr<cv::AgastFeatureDetector> detector = 
-        cv::AgastFeatureDetector::create(10, true, cv::AgastFeatureDetector::AGAST_7_12s);
+        cv::AgastFeatureDetector::create(10, true, cv::AgastFeatureDetector::OAST_9_16);
     std::vector<cv::KeyPoint> keypoints;
     detector->detect(src, keypoints);
 

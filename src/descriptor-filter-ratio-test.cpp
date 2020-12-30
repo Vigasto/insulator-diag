@@ -22,8 +22,8 @@ int main (int argc, char * const argv[]) {
     fs["vocabulary"] >> vocab;
     fs.release();
 
-    std::shared_ptr<cv::SIFT> detector = 
-        cv::SIFT::create();
+    std::shared_ptr<cv::AgastFeatureDetector> detector = 
+        cv::AgastFeatureDetector::create(10, true, cv::AgastFeatureDetector::OAST_9_16);
     std::shared_ptr<cv::DescriptorExtractor> descriptor = 
        cv::xfeatures2d::LATCH::create();
 

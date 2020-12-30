@@ -12,8 +12,8 @@ int main( int argc, char* argv[]) {
     auto dir = parser.get<std::string>("@dir");
     std::cout << dir << std::endl;
 
-    std::shared_ptr<cv::SIFT> detector = 
-        cv::SIFT::create();
+    std::shared_ptr<cv::AgastFeatureDetector> detector = 
+        cv::AgastFeatureDetector::create(10, true, cv::AgastFeatureDetector::OAST_9_16);
     std::shared_ptr<cv::xfeatures2d::LATCH> descriptor = 
         cv::xfeatures2d::LATCH::create();
 
