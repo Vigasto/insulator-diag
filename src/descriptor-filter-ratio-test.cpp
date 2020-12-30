@@ -24,11 +24,15 @@ int main (int argc, char * const argv[]) {
 
     std::shared_ptr<cv::AgastFeatureDetector> detector = 
         cv::AgastFeatureDetector::create(10, true, cv::AgastFeatureDetector::OAST_9_16);
+    // std::shared_ptr<cv::DescriptorExtractor> descriptor = 
+    //    cv::xfeatures2d::LATCH::create();
     std::shared_ptr<cv::DescriptorExtractor> descriptor = 
-       cv::xfeatures2d::LATCH::create();
+       cv::SIFT::create();
 
+    // std::shared_ptr<cv::DescriptorMatcher> matcher = 
+    //     cv::BFMatcher::create(cv::NormTypes::NORM_HAMMING);
     std::shared_ptr<cv::DescriptorMatcher> matcher = 
-        cv::BFMatcher::create(cv::NormTypes::NORM_HAMMING);
+        cv::BFMatcher::create(cv::NormTypes::NORM_L2);
     matcher->add(std::vector<cv::Mat>(1, vocab));
     cv::Mat freq_hist;
     cv::Mat training_descriptors, label;
