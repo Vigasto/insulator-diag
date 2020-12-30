@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
     fs.release();
 
     auto cluster_num = parser.get<int>("@cluster_num");
-    cv::BOWKmajorityTrainer trainer(cluster_num);
+    cv::BOWKmajorityTrainer trainer(cluster_num, 100);
     trainer.add(training_desc);
     std::cout << "Cluster BOW features" << std::endl;
     cv::Mat vocab = trainer.cluster();

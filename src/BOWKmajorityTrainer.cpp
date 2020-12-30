@@ -291,6 +291,7 @@ Mat BOWKmajorityTrainer::cluster(const Mat& descriptors) const
     KMajority::quantize(index, descriptors, belongsTo, clusterCounts, distanceTo, numClusters);
     for (int iteration=0; iteration<maxIterations; ++iteration)
     {
+        std::cout << "Iteration " << iteration << std::endl;
         KMajority::computeCentroids(descriptors,centroids,belongsTo,clusterCounts,distanceTo);
 
         index = makePtr<HammingIndex>(inputData, params, HammingDistance());
