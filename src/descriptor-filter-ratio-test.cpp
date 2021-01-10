@@ -38,7 +38,7 @@ int main (int argc, char * const argv[]) {
     cv::Mat training_descriptors, label;
 
     //TODO: tuning
-    float match_ratio = 0.8;
+    float match_ratio = 0.9;
 
     std::vector<cv::KeyPoint> kpts, filtered_kpts;
     detector->detect(img, kpts);

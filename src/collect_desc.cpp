@@ -31,6 +31,8 @@ int main( int argc, char* argv[]) {
     for (const auto & entry : std::filesystem::recursive_directory_iterator(dir)){
         img = cv::imread(entry.path());
         detector->detect(img, kpts);
+        //remove kpts on the borders as latch indicates (samples are sized based on latch req.)
+        cv::KeyPointsFilter::runByImageBorder(kpts, img.size(), 27);
         descriptor->compute(img, kpts, desc);
         training_desriptors.push_back(desc);
         std::cout << ".";

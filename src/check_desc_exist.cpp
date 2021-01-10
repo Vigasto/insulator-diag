@@ -24,53 +24,43 @@ int main (int argc, char * const argv[]) {
 
     std::shared_ptr<cv::AgastFeatureDetector> detector = 
         cv::AgastFeatureDetector::create(10, true, cv::AgastFeatureDetector::OAST_9_16);
-    // std::shared_ptr<cv::DescriptorExtractor> descriptor = 
-    //    cv::xfeatures2d::LATCH::create();
     std::shared_ptr<cv::DescriptorExtractor> descriptor = 
-       cv::SIFT::create();
+       cv::xfeatures2d::LATCH::create();
 
-    // std::shared_ptr<cv::DescriptorMatcher> matcher = 
-    //     cv::BFMatcher::create(cv::NormTypes::NORM_HAMMING);
     std::shared_ptr<cv::DescriptorMatcher> matcher = 
-        cv::BFMatcher::create(cv::NormTypes::NORM_L2);
+        cv::BFMatcher::create(cv::NormTypes::NORM_HAMMING, false);
     matcher->add(std::vector<cv::Mat>(1, vocab));
     cv::Mat freq_hist;
     cv::Mat training_descriptors, label;
 
-    //TODO: tuning
-    float maxdist = 80;
-    float minx, miny, maxx, maxy;
-    minx = 1152;
-    miny = 864;
-    maxx = maxy = 0;
+    float mindist = 999999999;
 
     std::vector<cv::KeyPoint> kpts, filtered_kpts;
     detector->detect(img, kpts);
     cv::Mat desc;
+    cv::Mat single_minimum;
     descriptor->compute(img, kpts, desc);
     std::vector<cv::DMatch> matches;
     matcher->match(desc, matches);
-    for (size_t i = 0; i < matches.size(); i++){
-        int queryIdx = matches[i].queryIdx;
-        float distance = matches[i].distance;
-        CV_Assert( queryIdx == (int)i );
+    for (auto match : matches){
+        int queryIdx = match.queryIdx;
+        float distance = match.distance;
 
-        if (distance < maxdist){
+        std::cout << distance << std::endl;
+        if (distance == 0){
+            mindist = distance;
+            single_minimum = desc.row(queryIdx);
             filtered_kpts.push_back(kpts[queryIdx]);
-            if (kpts[queryIdx].pt.x < minx) minx = kpts[queryIdx].pt.x;
-            if (kpts[queryIdx].pt.y < miny) miny = kpts[queryIdx].pt.y;
-            if (kpts[queryIdx].pt.x > maxx) maxx = kpts[queryIdx].pt.x;
-            if (kpts[queryIdx].pt.y > maxy) maxy = kpts[queryIdx].pt.y;
         }
     }
+
+    std::cout << mindist << std::endl;
+    if (mindist == 0) std::cout << single_minimum << std::endl;
+
     cv::Mat img_keypoints;
     cv::drawKeypoints(img, filtered_kpts, img_keypoints);
 
     cv::imshow("Filtered keypoints", img_keypoints);
-    std::cout << minx << std::endl;
-    std::cout << miny << std::endl;
-    std::cout << maxx << std::endl;
-    std::cout << maxy << std::endl;
 
     cv::waitKey();
     return 0;
